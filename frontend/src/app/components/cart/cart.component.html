@@ -1,0 +1,127 @@
+<ng-template #modalCart let-modal>
+  <div class="exit modal-body">
+    <i (click)="modal.dismiss('Cross click')" class="btn btn-dark"><i class="fas fa-times"></i> </i>
+  </div>
+
+  <!-- Modal cart step-->
+  <article class="modal-body" *ngIf="!visibilityFormBuy">
+    <ul class="list-group mb-3" *ngFor="let product of items">
+      <li class="list-group-item d-flex justify-content-between lh-sm">
+        <img src="{{ product.image }}" alt="" height="55px" />
+        <div>
+          <h6 class="my-0">{{ product.name }}</h6>
+          <small class="text-muted"></small>
+        </div>
+        <span class="text-muted">${{ product.price }}</span>
+        <span class="text-muted">Cantidad: {{ product.amount }}</span>
+        <button class="btn btn-outline-danger" (click)="removeItem(product)">
+          <i class="fas fa-trash"></i>
+        </button>
+      </li>
+    </ul>
+
+    <div class="center">
+      <button class="btn btn-dark mb-3" (click)="changeShowForm()">
+        <i class="fas fa-cart-plus"></i>
+        ${{ this.totalPrice }}
+      </button>
+    </div>
+  </article>
+
+  <!-- Modal buy step -->
+  <div *ngIf="visibilityFormBuy">
+    <article class="modal-body">
+      <h3 class="text-center title">Datos personales</h3>
+
+      <div [formGroup]="formGroup">
+        <!-- Name input -->
+        <div class="row mt-2">
+          <div class="col-md-12">
+            <div class="form-group">
+              <input
+                [class]="isValidField('name')"
+                type="text"
+                class="form-control"
+                placeholder="Nombre"
+                formControlName="name"
+                autofocus
+              />
+              <span *ngIf="debeMostrarError('name')" class="invalid-feedback">
+                {{ obtenerTextoError('name') }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Phone input -->
+        <div class="row mt-2">
+          <div class="col-md-12">
+            <div class="form-group">
+              <input
+                [class]="isValidField('phone')"
+                type="text"
+                class="form-control"
+                placeholder="Teléfono"
+                formControlName="phone"
+              />
+              <span *ngIf="debeMostrarError('phone')" class="invalid-feedback">
+                {{ obtenerTextoError('phone') }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Adress input -->
+        <div class="row mt-2">
+          <div class="col-md-12">
+            <div class="form-group">
+              <input
+                [class]="isValidField('address')"
+                type="text"
+                class="form-control"
+                placeholder="Dirección"
+                formControlName="address"
+              />
+              <span *ngIf="debeMostrarError('address')" class="invalid-feedback">
+                {{ obtenerTextoError('address') }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="center">
+          <a class="btn btn-outline-dark mt-2" (click)="changeShowDetail()">Ver detalle</a>
+        </div>
+
+        <div class="detail" *ngIf="showDetail">
+          <h3 class="text-center title mt-3">Productos:</h3>
+          <div class="center">
+            <button class="btn btn-dark mb-3" (click)="changeShowForm()">
+              <i class="fas fa-pen"></i>
+              Modificar
+            </button>
+          </div>
+
+          <ul class="list-group mb-3 mt-3" *ngFor="let product of items">
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+              <img src="{{ product.image }}" alt="" height="55px" />
+              <div>
+                <h6 class="my-0">{{ product.name }}</h6>
+                <small class="text-muted"></small>
+              </div>
+              <span class="text-muted">${{ product.price }}</span>
+              <span class="text-muted">Cantidad: {{ product.amount }}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="center">
+          <h2>Total: ${{ this.totalPrice }}</h2>
+        </div>
+        <div class="center">
+          <button class="btn btn-dark mb-3" [disabled]="formGroup.invalid" (click)="sendOrder()">
+            <i class="fas fa-cart-plus"></i>
+            Enviar pedido
+          </button>
+        </div>
+      </div>
+    </article>
+  </div>
+</ng-template>

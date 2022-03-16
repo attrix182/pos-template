@@ -1,0 +1,67 @@
+<div class="product-card zoom-in" (click)="openModalPost(product)">
+  <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image" />
+  <div class="product-name">
+    <a>{{ product.name }}</a>
+  </div>
+  <div class="product-price">
+    <p>${{ product.price }}</p>
+  </div>
+</div>
+
+<!-- Modal details -->
+<ng-template #modalPost let-modal>
+  <article class="modal-body">
+    <div class="exit">
+      <i (click)="modal.dismiss('Cross click')" class="btn btn-dark"><i class="fas fa-times"></i> </i>
+    </div>
+
+    <div *ngIf="product.image" class="img-fluid">
+      <img src="{{ product.image }}" class="img-fluid" alt="{{ product.name }}" />
+    </div>
+
+    <div *ngIf="!product.image" class="img-fluid">
+      <img
+        src="https://violamagazine.online/wp-content/uploads/sites/31/2021/02/No-Image.jpg"
+        class="img-fluid"
+        alt="{{ product.name }}"
+      />
+    </div>
+
+    <h2 class="text-center title mt-3">{{ product.name }}</h2>
+
+    <h2 class="text-left subtitle mt-3 mb-3 center">${{ product.price }}</h2>
+    <p class="text">{{ product.description }}</p>
+  </article>
+
+  <div class="center mb-2">
+    <div class="row">
+      <div class="col-5">
+        <button class="btn btn-dark" (click)="removeAmount()">
+          <i class="fas fa-minus"></i>
+        </button>
+      </div>
+      <div class="col-2 amount-text">
+        {{amount}}
+      </div>
+
+      <div class="col-5">
+        <button class="btn btn-dark"  (click)="addAmount()">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="center">
+    <button class="btn btn-dark mb-3" (click)="addToCart()">
+      <i class="fas fa-cart-plus"></i>
+      Añadir al carrito
+    </button>
+  </div>
+
+<!--   <div class="modal-footer">
+    <small class="text-right mt-3" *ngIf="product.available">Disponible: Hay unidades</small>
+    <small class="text-right mt-3" *ngIf="!product.available">Disponible: Fuera de stock</small>
+  </div> -->
+</ng-template>

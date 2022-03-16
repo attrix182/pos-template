@@ -1,0 +1,15 @@
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.exit {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}

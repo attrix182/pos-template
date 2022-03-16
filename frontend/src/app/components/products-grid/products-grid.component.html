@@ -1,0 +1,19 @@
+<div class="filters">
+  <div class="row">
+    <div class="col">
+      <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-dark" id="dropdownBasic1" ngbDropdownToggle>Ordenar por:</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem (click)="orderByPrice('asc')">Precio - menor a mayor</button>
+          <button ngbDropdownItem (click)="orderByPrice('desc')">Precio - mayor a menor</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="list-products" id="products" data-aos="fade-left">
+  <div *ngFor="let product of products">
+    <os-product-card [product]="product"></os-product-card>
+  </div>
+</div>
