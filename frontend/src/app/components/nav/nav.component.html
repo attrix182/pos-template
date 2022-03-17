@@ -1,27 +1,31 @@
-<div class="wrapper">
+<div class="wrapper animate__animated">
   <!-- Sidebar -->
   <nav id="sidebar" >
     <div class="sidebar-header">
-      <h3>POS</h3>
+      <h3></h3>
+      <div class="btn-exit">
+        <button (click)="toggleSidebar()" class="btn btn-dark"><i class="fas fa-arrow-left"></i></button>
+      </div>
     </div>
 
-    <ul class="list-unstyled components">
+    <ul class="list-unstyled components" id="navList">
       <p>Menu</p>
-      <li class="active">
-        <a href="#">Panel</a>
+      <li id="panel">
+        <a (click)="goToPanel()">Panel</a>
       </li>
-      <li>
-        <a href="#">Productos</a>
+      <li id="products">
+        <a (click)="goToProducts()">Productos</a>
       </li>
-      <li>
-        <a href="#">Ventas</a>
+      <li id="sales">
+        <a (click)="goToSales()">Ventas</a>
       </li>
-      <li>
-        <a href="#">Configuracion</a>
+      <li id="config">
+        <a (click)="goToConfig()">Configuracion</a>
       </li>
     </ul>
   </nav>
 </div>
 
-
-
+<div  *ngIf="!toggle">
+  <button (click)="toggleSidebar()" class="btn btn-danger m-3" style="background-color: #C34A32;"><i class="fas fa-arrow-right"></i></button>
+</div>

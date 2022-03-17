@@ -12,6 +12,11 @@ import { ProductCardComponent } from './components/products-grid/product-card/pr
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ProductsComponent } from './pages/products/products.component';
+import { SalesComponent } from './pages/sales/sales.component';
+import { ConfigComponent } from './pages/config/config.component';
+import { NgChartsModule } from 'ng2-charts';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 @NgModule({
@@ -21,7 +26,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SlidebarComponent,
     ProductsGridComponent,
     ProductCardComponent,
-    FooterComponent
+    FooterComponent,
+    ProductsComponent,
+    SalesComponent,
+    ConfigComponent
   ],
   imports: [
     BrowserModule,
@@ -31,9 +39,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgChartsModule
   ],
-  providers: [],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

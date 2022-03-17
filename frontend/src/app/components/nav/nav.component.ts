@@ -1,5 +1,5 @@
-import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
-import { CartService } from '@app/services/cart.service';
+import { Component, HostListener } from '@angular/core';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 
 @Component({
   selector: 'os-nav',
@@ -7,69 +7,60 @@ import { CartService } from '@app/services/cart.service';
   styleUrls: ['./nav.component.scss']
 })
 @HostListener('scroll', ['$event'])
-export class NavComponent implements OnInit {
-  public toggle: boolean = false;
-  public amount: number = 0;
-  public showCart: boolean = false;
-  public itemsCart: any[] = [];
-  public totalPrice: number = 0;
-  public emptyCart: boolean = true;
+export class NavComponent {
+  public toggle: boolean = true;
+  public activeUrl: string = this.router.url;
 
-  constructor(private cartSVC: CartService) {}
-
-  ngOnInit(): void {
-    this.cartSVC.getItems$().subscribe((res) => {
-      this.amount = res.length;
-      this.itemsCart = res;
-      this.totalPrice = this.getTotalPrice();
+  constructor(private router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+         console.log(event.url);
+        this.setActiveItem(event.url);
+      }
     });
   }
 
-  getTotalPrice() {
-    let total = 0;
-    this.itemsCart.forEach((item) => {
-      total += item.price;
-    });
-    return total;
+  setActiveItem(item: string) {
+    this.clearActives();
+    item = item.replace('/', '');
+    let element = document.querySelector(`#${item}`) as HTMLElement;
+    element.classList.add('active');
   }
 
-  onWindowScroll(event: any) {
-    let element = document.querySelector('.navbar') as HTMLElement;
-    let scrollTop = event.srcElement.children[0].scrollTop;
-
-    if (scrollTop > 0) {
-      element.classList.add('nav-sticky');
-    } else {
-      element.classList.remove('nav-sticky');
+  clearActives() {
+    if (document.querySelector('#navList li.active') !== null) {
+      document.querySelector('#navList li.active').classList.remove('active');
     }
+   
   }
 
-  toggleNavbar() {
-    let element = document.querySelector('.navbar-toggler') as HTMLElement;
-    let element2 = document.querySelector('.navCol') as HTMLElement;
+  toggleSidebar() {
+    let element = document.querySelector('.wrapper') as HTMLElement;
 
-    if (!this.toggle) {
-      element.classList.add('collapsed');
-      element2.classList.add('show');
-      this.toggle = true;
+    if (this.toggle) {
+      element.classList.add('collapsed', 'animate__slideInLeft');
+      element.classList.remove('show');
+      this.toggle = false;
     } else {
       element.classList.remove('collapsed');
-      element2.classList.remove('show');
-      this.toggle = false;
+      element.classList.add('show', 'animate__fadeInLeft');
+      this.toggle = true;
     }
   }
 
-  setShowCart() {
-    if (this.amount > 0) {
-      this.showCart = true;
-    } else {
-      this.showCart = false;
-      console.log('no hay items en el carrito');
-    }
-    console.log(this.showCart);
+  goToProducts() {
+    this.router.navigateByUrl('/products');
   }
 
-  closeCart() {
-    this.showCart = false;
+  goToPanel() {
+    this.router.navigateByUrl('/panel');
+  }
+
+  goToSales() {
+    this.router.navigateByUrl('/sales');
+  }
+
+  goToConfig() {
+    this.router.navigateByUrl('/config');
   }
 }
